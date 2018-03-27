@@ -30,6 +30,7 @@ var buyMTNForAll = function () {
 	}
 } ()
 
+/*
 var deployTokenPorter = function () {
 	console.log('Configuring TokenPorter')
 	personal.unlockAccount(owner, 'newOwner')
@@ -50,6 +51,7 @@ var deployTokenPorter = function () {
 		}
 	})
 } ()
+*/
 
 var exportMTNFor = function (i) {
 	var buyer = buyers[i]

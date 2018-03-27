@@ -1,0 +1,5 @@
+{
+	"nodeUrl": "http://localhost:8545",
+	"TokenPorterAddr": "0x58d77f22732d4a2847a0000e89ed5d66cf6e8525",
+	"TokenPorterSource": "../build/contracts/TokenPorter.json"
+}

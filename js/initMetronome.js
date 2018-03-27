@@ -25,7 +25,7 @@
 
 /* globals ETHER_ADDR, MINPRICE, NUMTOKENS, ONE, PRICE, START, TIMESCALE */
 /* globals eth, personal */
-/* globals Auctions, AutonomousConverter, METTokenJSON, Proceeds, SmartTokenJSON */
+/* globals Auctions, AutonomousConverter, METTokenJSON, Proceeds, SmartTokenJSON, TokenPorterJSON */
 var hash
 function waitForTx (hash) {
   var receipt = eth.getTransactionReceipt(hash)
@@ -112,3 +112,16 @@ hash = Auctions.initAuctions(START, MINPRICE, PRICE, TIMESCALE, {from: newOwner,
 waitForTx(hash)
 personal.unlockAccount(newOwner, 'newOwner')
 console.log('Initialized', Auctions.initialized())
+
+var deployTokenPorter = function () {
+  console.log('Configuring TokenPorter')
+  var owner = newOwner
+  personal.unlockAccount(owner, 'newOwner')
+  var byteCode = eth.contract(TokenPorterJSON.abi).new.getData(METToken.address, Auctions.address, {data: TokenPorterJSON.bytecode})
+  var tx = eth.sendTransaction({from: owner, data: byteCode, gas: 4700000})
+  var receipt = waitForTx(tx)
+  var gas = METToken.setTokenPorter.estimateGas(receipt.contractAddress, {from: owner})
+  tx = METToken.setTokenPorter(receipt.contractAddress, {from: owner, gas: gas})
+  waitForTx(tx)
+  console.log('TokenPorter published at ' + METToken.tokenPorter())
+} ()
